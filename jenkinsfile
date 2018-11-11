@@ -20,5 +20,22 @@ pipeline{
         build job: 'deploy-to-stag-new' 
       }
     }
+    stage('Deploy to production'){
+      steps{
+        timeout(time:5, unit:'DAYS'){
+          input message: 'Deploy to production?'
+        }
+        build job: 'deploy-to-prod-new'
+      }
+      post{
+        success{
+          echo 'Deployed to prod'
+        } 
+        failure{
+          echo 'deployment to prod failed'
+        }
+      }
+  
+    }
   }
 }
